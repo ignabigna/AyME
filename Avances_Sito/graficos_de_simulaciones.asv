@@ -190,76 +190,13 @@ xlabel('Tiempo [s]')
 ylabel('Tensión [V]')
 xticks(0:0.1:max(t))
 %% Plot torque vs velocidad
-% 
-% figure;
-% 
-% plot(omega, T_m, 'LineWidth',1.5)
-% grid on
-% title('Curva paramétrica torque electromagnético vs velocidad angular')
-% xlabel('\omega_{m}(t) [rad/s]')
-% ylabel('T_{m}(t) [N.m]')
-% %xticks(-1:0.1:max(t))
-% 1. Crear la figura y retenerla para encimar múltiples elementos
-figure;
-hold on;
-
-% 2. Definir los límites del gráfico (basado en tu imagen anterior)
-% Si en el futuro tenés torques o velocidades más altas, ajustá estos valores
-x_max = 500;  x_min = -500;
-y_max = 1;    y_min = -1;
-
-% 3. Pintar los Cuadrantes usando "fill"
-% La propiedad 'FaceAlpha' le da transparencia (0.1 = 10% opaco)
-% La propiedad 'EdgeColor' en 'none' quita los bordes del rectángulo
-
-% Cuadrante I: Arriba a la derecha (Rojo)
-fill([0, x_max, x_max, 0], [0, 0, y_max, y_max], 'r', 'FaceAlpha', 0.1, 'EdgeColor', 'none');
-
-% Cuadrante II: Arriba a la izquierda (Azul)
-fill([x_min, 0, 0, x_min], [0, 0, y_max, y_max], 'b', 'FaceAlpha', 0.1, 'EdgeColor', 'none');
-
-% Cuadrante III: Abajo a la izquierda (Verde)
-fill([x_min, 0, 0, x_min], [y_min, y_min, 0, 0], 'g', 'FaceAlpha', 0.1, 'EdgeColor', 'none');
-
-% Cuadrante IV: Abajo a la derecha (Amarillo)
-fill([0, x_max, x_max, 0], [y_min, y_min, 0, 0], 'y', 'FaceAlpha', 0.1, 'EdgeColor', 'none');
-
-% 4. Graficar tu curva original ENCIMA de los fondos de colores
-% Asegurate de usar las variables correctas (ej. omega, Tm)
-% Le ponemos un LineWidth de 1.5 para que la curva resalte bien sobre el color
-plot(omega, T_m, 'LineWidth', 1.5, 'Color', [0 0.4470 0.7410]); 
-
-% 5. Agregar las etiquetas de texto en el centro de cada cuadrante
-% Se usan coordenadas (X, Y) para ubicar el texto
-text(250, 0.5, {'Cuadrante I', 'Motorización Directa'}, ...
-    'HorizontalAlignment', 'center', 'FontWeight', 'bold');
-    
-text(-250, 0.5, {'Cuadrante II', 'Frenado Reg. Inverso'}, ...
-    'HorizontalAlignment', 'center', 'FontWeight', 'bold');
-    
-text(-250, -0.5, {'Cuadrante III', 'Motorización Inversa'}, ...
-    'HorizontalAlignment', 'center', 'FontWeight', 'bold');
-    
-text(250, -0.5, {'Cuadrante IV', 'Frenado Reg. Directo'}, ...
-    'HorizontalAlignment', 'center', 'FontWeight', 'bold');
-
-% 6. Ajustes de formato finales para que quede prolijo
-grid on;
-box on;
-xlabel('\omega_m(t) [rad/s]');
-ylabel('T_m(t) [N.m]');
-title('Curva paramétrica: Torque vs Velocidad angular');
-axis([x_min x_max y_min y_max]); % Fijamos los ejes para que calcen perfecto con el color
-
-hold off;
-
-%% Plot temeratura del estator
-
 
 figure;
 
-plot(i_qs, i_ds, 'LineWidth',1.5)
+plot(omega, T_m, 'LineWidth',1.5)
 grid on
-title('Plano de correintes i_{ds} vs i_{qs}')
-xlabel('i_{qs} [A]')
-ylabel('i_{ds} [A]')
+title('Curva parametrica torque electromagnetico vs velocidad angular')
+xlabel('\omega_{m}(t) [rad/s]')
+ylabel('T_{m}(t) [N.m]')
+xticks(-1:0.1:max(t))
+
