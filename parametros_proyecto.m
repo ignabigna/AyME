@@ -123,7 +123,7 @@ b_eq = bm + (b_art_nom / r^2);
 J_eq_max = Jm + (((m_brazo * l_cm^2 + J_cm) + m_carga_max * l_l^2) / r^2);
 b_eq_max = bm + ((b_art_nom + b_art_var) / r^2);
 %%SubProgramas para datos de informe==========================
-%%graficar_polos_temperatura(Ld, Lq, Rs_ref, alpha_cu, T_ref, P_p, lambda_m, J_eq, b_eq, Tamb_min, Ts_max);
+%graficar_polos_temperatura(Ld, Lq, Rs_ref, alpha_cu, T_ref, P_p, lambda_m, J_eq, b_eq, Tamb_min, Ts_max);
 %graficar_polos_temperatura2(Ld, Lq, Rs_ref, alpha_cu, T_ref, P_p, lambda_m, J_eq, b_eq, J_eq_max, b_eq_max, Tamb_min, Tamb, Ts_max);
 %% Corrida de Desempeño
 %graficar_desempeno_carga(Lq, Rs_ref, alpha_cu, T_ref, Tamb_min, Ts_max, P_p, lambda_m, Jm, bm, r, m_brazo, l_cm, J_cm, l_l, m_carga_min, m_carga_max, b_art_nom, b_art_var);

@@ -46,7 +46,7 @@ figure;
 subplot(2,1,1)
 plot(t, v_qs, 'LineWidth', 1.5)
 grid on
-title('Señal v_{qs}(t)')
+title('Señal V^{*}_{qs}(t)')
 xlabel('Tiempo [s]')
 ylabel('Voltaje [V]')
 
