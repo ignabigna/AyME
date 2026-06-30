@@ -1,0 +1,3 @@
+S = load('miVector.mat');
+
+Hay que poner esto en el Matlab je

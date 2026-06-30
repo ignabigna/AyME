@@ -57,3 +57,8 @@ title('Torque de carga T_L');
 xlabel('Tiempo [s]');
 ylabel('Torque [Nm]');
 grid on;
+
+%----------GUARDADO DE VECTORES-----------
+save('VECTOR_theta_LTI.mat', 'theta_m')
+save('VECTOR_omega_LTI.mat', 'omega_m')
+save('VECTOR_Torque_LTI.mat', 'T_m')
