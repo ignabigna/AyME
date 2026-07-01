@@ -3,8 +3,8 @@ g = 9.80665;
 %====Parametros referidos a la carga(brazo robotico)==== 
 %=======================================================
 %COEFICIENTE DE FIRCCION VISCOSA ARTICULACION variable
-b_lmax = 0.3; % variacion positiva
-b_lmin = -0.3; % variacion negativa
+b_lmax = 0.03; % variacion positiva
+b_lmin = -0.03; % variacion negativa
 b_l = (0.1 + b_lmax); % coeficiente de friccion viscosa de articulacion [N.m/rad.s]
 %==============================================
 m = 1; %masa del brazo manipulador [kg]
@@ -24,7 +24,7 @@ k_l = m*l_cm + m_l*l_l; % cte que usamos en T_l(t): torque de carga
 %Torque de perturbacion por contacto (asumir funcion escalon)
 T_ldmin = -5; 
 T_ldmax = 5; 
-T_ld = T_ldmax; % variar por T_ldmax o T_ldmin [N.m]
+%T_ld = T_ldmax; % variar por T_ldmax o T_ldmin [N.m]
 
 %==========================================
 %==========TREN DE TRANSMICION=============
@@ -67,5 +67,5 @@ T_amb = 25; % temperatura ambiente, variable entre -15 y 40
 
 %===============================================
 %======calculo de J_eq y b_eq ==================
-J_eq = J_m + J_l/r^2; % inercia equivalente visto desde el eje del motor
-b_eq = b_m + b_l/r^2; % coeficiente de friccion equivalente visto desde el eje del motor
+J_eq = J_m + J_l/(r^2); % inercia equivalente visto desde el eje del motor
+b_eq = b_m + b_l/(r^2); % coeficiente de friccion equivalente visto desde el eje del motor

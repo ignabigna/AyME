@@ -1,12 +1,11 @@
 %% Miemos vector de tiempo para todos los plots
-t = out.Vqs.Time;
+t = out.ref_Vqs.Time;
 %% Plot Vqs* y Perturbacion
-Vqs = out.Vqs.Data;
+ref_Vqs = out.ref_Vqs.Data;
 pert = out.pert.Data;
 figure;
-
 subplot(2,1,1)
-plot(t, Vqs, 'LineWidth', 1.5)
+plot(t, ref_Vqs, 'LineWidth', 1.5)
 grid on
 title('Señal V^{*}_{qs}(t)')
 xlabel('Tiempo [s]')
