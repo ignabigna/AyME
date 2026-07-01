@@ -132,7 +132,7 @@ b_eq_max = bm + ((b_art_nom + b_art_var) / r^2);
 t = [0 0.1 0.7 1.1 2];
 u = [0 19.6 -19.6 0 0];
 %Graficar entradas
-[t, v_qs, T_L] = G_Entradas();
+%[t, v_qs, T_L] = G_Entradas();
 %Graficar Salidas es independiente, pero hay que correr la siulacion
 %primero
 

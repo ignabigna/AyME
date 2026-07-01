@@ -1,0 +1,121 @@
+% =========================================================================
+% Gráficas de simulación: Corrientes i_q e i_d (Primer segundo)
+% =========================================================================
+
+% 1. Extracción de datos del objeto 'out'
+t = out.IQS.Time;
+i_q = out.IQS.Data;
+i_d = out.IDS.Data;
+id1 = out.IDS.Data;
+id2 = out.IDS1.Data;
+id3 = out.IDS2.Data;
+
+% Filtrar hasta 1 segundo
+idx = t <= 1;
+
+t_plot  = t(idx);
+iq_plot = i_q(idx);
+id_plot = i_d(idx);
+
+% =========================================================================
+% FIGURA 1
+% =========================================================================
+
+figure('Name', 'Dinámica de Corrientes Estatóricas', ...
+       'Color', 'w', ...
+       'Position', [100, 100, 400, 300]);
+
+% --- Gráfica 1: i_q vs Tiempo ---
+subplot(2,1,1)
+plot(t_plot, iq_plot, 'b', 'LineWidth', 1.5)
+grid on
+title('Corriente en Cuadratura')
+xlabel('Tiempo [s]')
+ylabel('i_q [A]')
+xlim([0 1])
+
+% --- Gráfica 2: i_d vs Tiempo ---
+subplot(2,1,2)
+plot(t_plot, id_plot, 'r', 'LineWidth', 1.5)
+grid on
+title('Corriente Directa')
+xlabel('Tiempo [s]')
+ylabel('i_d [A]')
+xlim([0 1])
+
+sgtitle('Resultados de Simulación (0 a 1 s)')
+
+%% =========================================================================
+% FIGURA 2 - Comparación de los tres planos de fase
+% =========================================================================
+
+
+% Filtrar hasta 1 segundo
+id1_plot = id1(idx);
+id2_plot = id2(idx);
+id3_plot = id3(idx);
+
+figure('Name','Comparación de Planos de Fase',...
+       'Color','w',...
+       'Position',[150 150 1400 450]);
+
+%% ------------------- IDS -------------------
+subplot(1,3,1)
+
+plot(iq_plot,id1_plot,'k','LineWidth',1.5)
+hold on
+
+[~,imax] = max(id1_plot);
+plot(iq_plot(imax),id1_plot(imax),...
+    'ro','MarkerFaceColor','r','MarkerSize',8)
+
+grid on
+axis square
+xlim([(min(iq_plot)-2) (max(iq_plot)+2)])
+ylim([-0.6 0.6])
+
+title('$i_{ds}(0) = 0$ A', 'Interpreter', 'latex', 'FontSize', 12);
+xlabel('i_q [A]')
+ylabel('i_d [A]')
+
+%% ------------------- IDS1 -------------------
+subplot(1,3,2)
+
+plot(iq_plot,id2_plot,'b','LineWidth',1.5)
+hold on
+
+[~,imax] = max(id2_plot);
+plot(iq_plot(imax),id2_plot(imax),...
+    'ro','MarkerFaceColor','r','MarkerSize',8)
+
+grid on
+axis square
+xlim([(min(iq_plot)-2) (max(iq_plot)+2)])
+ylim([-0.6 0.6])
+
+title('$i_{ds}(0) = 0.5$ A', 'Interpreter', 'latex', 'FontSize', 12);
+xlabel('i_q [A]')
+ylabel('i_d [A]')
+
+%% ------------------- IDS2 -------------------
+subplot(1,3,3)
+
+plot(iq_plot,id3_plot,'g','LineWidth',1.5)
+hold on
+
+[~,imax] = min(id3_plot);
+plot(iq_plot(imax),id3_plot(imax),...
+    'ro','MarkerFaceColor','r','MarkerSize',8)
+
+grid on
+axis square
+xlim([(min(iq_plot)-2) (max(iq_plot)+2)])
+ylim([-0.6 0.6])
+
+title('$i_{ds}(0) = 0.5$ A', 'Interpreter', 'latex', 'FontSize', 12);
+xlabel('i_q [A]')
+ylabel('i_d [A]')
+
+sgtitle('$i_{ds}(0)=\pm0.5\,\mathrm{A}\ \mathrm{vs}\ i_{qs}$', ...
+    'Interpreter','latex','FontSize',14)
+
