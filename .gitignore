@@ -1,0 +1,17 @@
+# Ignorar archivos de logs
+*.log
+
+# Ignorar la carpeta node_modules
+slprj/
+
+# Ignorar archivos de entorno
+.env
+
+# Ignorar la carpeta build
+build/
+
+# Ignorar archivos temporales
+*.tmp
+
+# Ignorar archivos temporales
+*.slxc

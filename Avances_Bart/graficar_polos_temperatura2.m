@@ -86,7 +86,7 @@ function mostrar_polos_extremos(Lq, P_p, lambda_m, Rs_ref, alpha_cu, T_ref, Tamb
     fprintf('s2 = %.2f + %.2fi\n', real(p_comp_min(1)), imag(p_comp_min(1)));
     fprintf('s3 = %.2f - %.2fi\n', real(p_comp_min(2)), abs(imag(p_comp_min(2))));
     
-    fprintf('\n--- CONDICIONES MÁXIMAS (Nominales) ---\n');
+    fprintf('\n--- CONDICIONES MÁXIMAS (Nominales) ojo con esos que difieren del grafico---\n');
     fprintf('Temp = %.1f °C | Rs = %.4f ohms | Jeq = %.2e | beq = %.2e\n', Ts_max, Rs_max, J_eq_max, b_eq_max);
     fprintf('s1 = %.2f\n', s1_max);
     if isreal(p_comp_max)

@@ -114,14 +114,14 @@ ml = 0.0;                   % [kg] Masa de carga útil (rango 0 a 1.5)
 % Inercia de la carga en la articulación (Ec. 1.2)
 Jl = (m_brazo * l_cm^2 + J_cm) + ml * l_l^2; % 
 % Inercia equivalente total vista por el motor
-J_eq = Jm + (Jl / r^2)
+J_eq = Jm + (Jl / r^2);
 % Coeficiente kl para el torque gravitacional (Ec. 1.1)
 kl = m_brazo * l_cm + ml * l_l; 
 % Fricción viscosa equivalente referida al motor
-b_eq = bm + (b_art_nom / r^2)
+b_eq = bm + (b_art_nom / r^2); 
 % Calcula tus J_eq_max y b_eq_max antes de la llamada
-J_eq_max = Jm + (((m_brazo * l_cm^2 + J_cm) + m_carga_max * l_l^2) / r^2)
-b_eq_max = bm + ((b_art_nom + b_art_var) / r^2)
+J_eq_max = Jm + (((m_brazo * l_cm^2 + J_cm) + m_carga_max * l_l^2) / r^2);
+b_eq_max = bm + ((b_art_nom + b_art_var) / r^2);
 %%SubProgramas para datos de informe==========================
 %graficar_polos_temperatura(Ld, Lq, Rs_ref, alpha_cu, T_ref, P_p, lambda_m, J_eq, b_eq, Tamb_min, Ts_max);
 graficar_polos_temperatura2(Ld, Lq, Rs_ref, alpha_cu, T_ref, P_p, lambda_m, J_eq, b_eq, J_eq_max, b_eq_max, Tamb_min, Tamb, Ts_max);
