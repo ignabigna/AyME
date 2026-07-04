@@ -122,7 +122,7 @@ hold off;
 
 % 1. Cálculo del Polo Residual (basado en parámetros del eje d)
 % Debes asegurarte de tener definidos Rs y Ld (u otros parámetros de tu motor)
-s_residual = -R_sREF / L_d
+s_residual = -R_sREF / L_d;
 
 % 2. Cálculo de los Ceros del PID (para completar el mapa)
 % El numerador del PID es: Kd*s^2 + Kp*s + Ki
@@ -182,3 +182,25 @@ xlabel('Eje Real (\sigma)'); ylabel('Eje Imaginario (j\omega)');
 legend('Location', 'best');
 xline(0, 'k-', 'LineWidth', 1); yline(0, 'k-', 'LineWidth', 1);
 hold off;
+%-----------------------------------------------------
+%XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+% --- Análisis de Robustez: Migración de Polos ---
+% Llamamos a la función externa para evaluar diferentes masas
+Variacion_carga_controladorPID2(K_p, K_i, K_d, b_eq_max, m, l_cm, J_cm, l_l, J_m, r);
+
+% =========================================================================
+% ANÁLISIS DE ROBUSTEZ: DISEÑO PARA CARGA MÍNIMA (Igual a los compañeros)
+% =========================================================================
+
+% Usamos exclusivamente las ganancias calculadas para el brazo vacío (J_eq_min)
+K_d_test = K_dmin;
+K_p_test = K_pmin;
+K_i_test = K_imin;
+
+% IMPORTANTE: Debemos usar también la fricción mínima como punto de partida
+b_eq_test = b_eq_min;
+
+fprintf('\n>>> EVALUANDO MIGRACIÓN DE POLOS (DISEÑO BASADO EN m_l = 0 kg) <<<\n');
+
+% Llamamos a la función con el controlador ajustado para carga mínima
+Variacion_carga_controladorPID(K_p_test, K_i_test, K_d_test, b_eq_test, m, l_cm, J_cm, l_l, J_m, r);
