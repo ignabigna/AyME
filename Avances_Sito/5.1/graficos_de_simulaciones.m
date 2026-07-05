@@ -252,7 +252,7 @@ axis([x_min x_max y_min y_max]); % Fijamos los ejes para que calcen perfecto con
 
 hold off;
 
-%% Plot temeratura del estator
+%% Plot plano de corrientes
 
 
 figure;

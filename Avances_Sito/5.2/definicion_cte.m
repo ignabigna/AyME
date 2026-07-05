@@ -5,7 +5,7 @@ g = 9.80665;
 %COEFICIENTE DE FIRCCION VISCOSA ARTICULACION variable
 b_lmax = 0.03; % variacion positiva
 b_lmin = -0.03; % variacion negativa
-b_l = 0.1 ;%+ b_lmax; % coeficiente de friccion viscosa de articulacion [N.m/rad.s]
+b_l = 0.1 + b_lmin; % coeficiente de friccion viscosa de articulacion [N.m/rad.s]
 %==============================================
 m = 1; %masa del brazo manipulador [kg]
 l_cm = 0.25; % longitud al centro de masa [m]
@@ -73,13 +73,18 @@ b_eq = b_m + b_l/(r^2); % coeficiente de friccion equivalente visto desde el eje
 %===============================================
 %=======Polos de los lazos de corriente=========
 p = 5000;
-R_q = 5000 * p;
-R_d = 5000 * p;
-R_0 = 5000 * p;
+R_q = 5000 * L_q;
+R_d = 5000 * L_d;
+R_0 = 5000 * L_ls;
 
 %===============================================
 %======Ganancias controlador PID de movimiento==
 b_a = 0.0396; % aca barto van las formulas de lo que has estado haciendo
 K_sa = 31.656; %... (yo lo puse asi nomas porque no me he metido en el tema de como es)
 K_sia = 10129.778; %... sos crack barto 
+
+%===============================================
+%======Ganancias del observador reducido========
+K_theta = 6400;
+K_omega = 10240000;
 
