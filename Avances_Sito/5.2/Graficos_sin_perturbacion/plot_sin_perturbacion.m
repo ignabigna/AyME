@@ -516,7 +516,27 @@ title('v_{0s}(t) - Tensión del eje 0')
 xlabel('Tiempo [s]')
 ylabel('Tensión [V]')
 xticks(0:1:max(t))
+%% Figura 17: Torque Electromagnético
 
+% 1. Extraemos el tiempo y los datos del torque desde el objeto 'out'
+t_T_m = out.T_m.Time;
+T_m = out.T_m.Data;
+
+% 2. Creamos la figura
+figure;
+
+% Ploteamos el torque (usaremos color rojo y línea continua)
+plot(t_T_m, T_m, 'r', 'LineWidth', 1.5)
+grid on
+
+% 3. Títulos y etiquetas
+title('T_m(t) - Torque Electromagnético')
+xlabel('Tiempo [s]')
+ylabel('Torque [N·m]')
+
+% Ajustamos los límites del eje X al tiempo máximo de la simulación
+xlim([0 max(t_T_m)])
+xticks(0:1:max(t))
 %% Plot temeratura del estator
 T_s = out.T_s.Data;
 
