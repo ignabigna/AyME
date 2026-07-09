@@ -1,0 +1,112 @@
+clc; clear; close all;
+g = 9.80665;
+%====Parametros referidos a la carga(brazo robotico)==== 
+%=======================================================
+%COEFICIENTE DE FIRCCION VISCOSA ARTICULACION variable
+b_lmax = 0.03; % variacion positiva
+b_lmin = -0.03; % variacion negativa
+b_l = 0.1 + b_lmin; % coeficiente de friccion viscosa de articulacion [N.m/rad.s]
+%==============================================
+m = 1; %masa del brazo manipulador [kg]
+l_cm = 0.25; % longitud al centro de masa [m]
+J_cm = 0.0208; % inercia equivalente [kg.m^2]
+l_l = 0.50; % longitud total (extremo) [m]
+%========================================
+%masa de carga en el extremo variable
+m_lmax = 1.5; % maxima carga
+m_lmin = 0; % minima carga
+m_l = m_lmin; % modificar puede ser valores intermedios
+%=========================================
+%momento de inercia total al eje de rotacion
+J_l = (m*(l_cm^2) + J_cm) + m_l*(l_l^2); % no modificar aca, modificar arriba m_l (carga en el extremo)
+k_l = m*l_cm + m_l*l_l; % cte que usamos en T_l(t): torque de carga
+%==========================================
+%Torque de perturbacion por contacto (asumir funcion escalon)
+T_ldmin = -5; 
+T_ldmax = 5; 
+%T_ld = T_ldmax; % variar por T_ldmax o T_ldmin [N.m]
+
+%==========================================
+%==========TREN DE TRANSMICION=============
+r = 120; % realacion de reduccion
+%==========================================
+%==Especificaciones de operacion (brazo)===
+n_lnom = 60; % velocidad nominal (salida) [rpm]
+w_lnom = 6.28; % velocidad nominal (salida) [rad/s]
+T_qnom = 17; % torque nominal (salida) [N.m]
+T_qmax = 45; % torque pico [N.m]
+%==========================================
+
+%==========================================
+%========Maquina electrica PMSM============
+J_m = 14e-6; %momento de inercia (motor y caja)
+b_m = 15e-6; %coeficiente de friccion (motor y caja)
+P_p = 3; %pares de polos
+lambda_m = 0.016; %Flujo magnético equivalente de imanes concatenado por espiras del bobinado de estator
+L_q = 5.8e-3; % Inductancia del estator (eje en cuadratura)
+L_d = 6.6e-3; % Inductancia del estator (eje directo)
+L_ls = 0.8e-3; % Inductancia de disercion de estator
+R_sREF = 1.02; %Resistencia de referencia de estator a T_sREF = 20 GRADOS
+T_sREF = 20; % Temperatura de referencia
+alpha_Cu = 3.9e-3; % coef aumento de R_s con T_s
+%R_s = R_sREF*(1 + alpha_Cu*(T_s - T_sREF));
+C_ts = 0.818; % capacitancia termica del estator
+R_tsamb = 146.7; % resistencia termica estator-ambiente
+tau_tsamb = R_tsamb*C_ts; %cte de tiempo termica
+
+%==============================================
+%===especificaciones de operacion (motor)======
+n_mnom = 6600; %velocidad nominal rotor [rpm]
+w_nnom = 691.15; %velocidad nominal rotor [rad/s]
+V_slnom = 30; % tension nominal de linea 
+V_sfnom = V_slnom/sqrt(3); %tension niminal de fase
+I_snom = 0.4; %corriente nominal
+I_smax = 2; %correinte maxima
+T_smax = 115; % temperatura maxima bibinado estator
+T_amb = 25; % temperatura ambiente, variable entre -15 y 40
+
+%===============================================
+%======calculo de J_eq y b_eq ==================
+J_eq = J_m + J_l/(r^2); % inercia equivalente visto desde el eje del motor
+b_eq = b_m + b_l/(r^2); % coeficiente de friccion equivalente visto desde el eje del motor
+
+%===============================================
+%=======Polos de los lazos de corriente=========
+p = 5000;
+R_q = 5000 * L_q;
+R_d = 5000 * L_d;
+R_0 = 5000 * L_ls;
+
+%===============================================
+%======Ganancias controlador PID de movimiento==
+b_a = 0.0396; % aca barto van las formulas de lo que has estado haciendo
+K_sa = 31.656; %... (yo lo puse asi nomas porque no me he metido en el tema de como es)
+K_sia = 10129.778; %... sos crack barto 
+
+%===============================================
+%======Ganancias del observador con accion integral========
+K_theta_i = 3.2768e10;
+K_omega_2 = 3.0720e7;
+K_theta_2 = 9600;
+
+%==============================================
+%=====Sensores No Ideales======================
+
+%=====sensores de correinte====================
+wn_i = 6000*3;
+xita_i = 1;
+%=====sensores de posicion=====================
+wn_theta = 2000*3; %ojo aca estamos trabajando con 3 veces la omega del sensor de pos
+xita_theta = 1;
+%=====sensor de temperatura====================
+tau = 20; %modificar para ver la temperatura mas real a 0.5
+
+%==============================================
+%=======Modulador de tension no ideal==========
+w_modul = 6000*4;
+xita_modul = 1;
+lim_sup = sqrt(2) * 48 / sqrt(3);
+lim_inf = -sqrt(2) * 48 / sqrt(3);
+
+%======Periodo de muestreo=====================
+Ts = 1.256e-4;

@@ -1,0 +1,183 @@
+% STREAMING_CHUNK: Extrayendo datos de la variable posiciones...
+%% Gráfico de Posiciones (Codificación, Simulación y Referencia) desde un Mux triple
+
+% 1. Extraemos el tiempo y la matriz de datos
+% El bloque To Workspace en Simulink se llama 'posiciones'
+t_pos = out.posiciones.Time;
+matriz_posiciones = out.posiciones.Data;
+
+% STREAMING_CHUNK: Separando variables según el orden del Mux...
+% 2. Separamos las variables (según el orden de conexión de arriba hacia abajo al Mux)
+theta_m_codif = matriz_posiciones(:, 1); % 1ra entrada: theta_m codificación
+theta_m_sim   = matriz_posiciones(:, 2); % 2da entrada: theta_m simulación
+theta_m_ref   = matriz_posiciones(:, 3); % 3ra entrada: theta_m* (referencia)
+
+% STREAMING_CHUNK: Creando figura y ploteando las señales...
+% 3. Creamos la figura y ploteamos
+figure;
+
+% Referencia: Negra punteada (k--) para que resalte en el fondo
+plot(t_pos, theta_m_ref, 'k--', 'LineWidth', 1.5)
+hold on
+% Codificación: Roja continua (r)
+plot(t_pos, theta_m_codif, 'r', 'LineWidth', 1.5)
+% Simulación: Azul con trazo y punto (b-.)
+plot(t_pos, theta_m_sim, 'b-.', 'LineWidth', 1.5)
+
+grid on
+hold off
+
+% STREAMING_CHUNK: Configurando títulos, etiquetas y leyenda...
+% 4. Títulos y etiquetas
+title('Comparativa de Posiciones')
+xlabel('Tiempo [s]')
+ylabel('Posición [rad]')
+
+% Leyenda (usando intérprete TeX para que los símbolos griegos se vean bien)
+legend('\theta_m^* (Referencia)', '\theta_m (Codificación)', '\theta_m (Simulación)', 'Location', 'best')
+
+% 5. Configuración del eje X (ajustado a toda la simulación)
+xlim([0 max(t_pos)])
+
+
+figure;
+
+% Referencia: Negra punteada (k--) para que resalte en el fondo
+plot(t_pos, theta_m_ref, 'k--', 'LineWidth', 1.5)
+hold on
+% Codificación: Roja continua (r)
+plot(t_pos, theta_m_codif, 'r', 'LineWidth', 1.5)
+% Simulación: Azul con trazo y punto (b-.)
+plot(t_pos, theta_m_sim, 'b-.', 'LineWidth', 1.5)
+
+grid on
+hold off
+
+% STREAMING_CHUNK: Configurando títulos, etiquetas y leyenda...
+% 4. Títulos y etiquetas
+title('Comparativa de Posiciones zoom t = 10')
+xlabel('Tiempo [s]')
+ylabel('Posición [rad]')
+
+% Leyenda (usando intérprete TeX para que los símbolos griegos se vean bien)
+legend('\theta_m^* (Referencia)', '\theta_m (Codificación)', '\theta_m (Simulación)', 'Location', 'best')
+
+% Límite y pasos del eje X (Tiempo: de 1 a 1.026 con paso de 0.002)
+xlim([9.9992 10.0008])
+xticks(9.9992:0.0002:10.0008)
+
+% Límite y pasos del eje Y (Posición: de -1 a 12 con paso de 2)
+ylim([442.45 442.55])
+yticks(442.45:0.01:442.55)
+
+
+%% Gráfico de las Corrientes del Estator (a, b, c) desde un Mux triple
+
+% 1. Extraemos el tiempo y la matriz de datos de corriente
+% Asumimos que el bloque to workspace se llama 'corrientes'
+t_corr = out.corrientes.Time;
+matriz_corrientes = out.corrientes.Data;
+
+% 2. Separamos las variables (según el orden de conexión al Mux: a, b, c)
+i_a = matriz_corrientes(:, 1); % 1ra entrada: Corriente fase a
+i_b = matriz_corrientes(:, 2); % 2da entrada: Corriente fase b
+i_c = matriz_corrientes(:, 3); % 3ra entrada: Corriente fase c
+
+% 3. Creamos la figura y ploteamos
+figure;
+
+% Corriente a: Roja
+plot(t_corr, i_a, 'r', 'LineWidth', 1.5)
+hold on
+% Corriente b: Azul
+plot(t_corr, i_b, 'b', 'LineWidth', 1.5)
+% Corriente c: Negra
+plot(t_corr, i_c, 'k', 'LineWidth', 1.5)
+grid on
+hold off
+
+% 4. Títulos y etiquetas
+title('Corrientes del Estator (codificación): i_a(t), i_b(t), i_c(t)')
+xlabel('Tiempo [s]')
+ylabel('Corriente [A]')
+
+% Leyenda
+legend('i_a', 'i_b', 'i_c', 'Location', 'best')
+
+% 5. Configuración del eje X (ajustado a toda la simulación por defecto)
+xlim([0 max(t_corr)])
+% ... existing code ...
+% Leyenda
+legend('i_a', 'i_b', 'i_c', 'Location', 'best')
+
+% % 5. --- Configuración específica del ZOOM ---
+% % Límite y pasos del eje X (Tiempo: de 1 a 1.026 con paso de 0.002)
+% xlim([1 1.026])
+% xticks(1:0.002:1.026)
+% 
+% % Límite y pasos del eje Y (Corrientes: de -800 a 600 con paso de 200)
+% ylim([-800 600])
+% yticks(-800:200:600)
+
+% STREAMING_CHUNK: Configurando extracción de datos...
+%% Gráfico de las Tensión que salen del Modulador (Va, Vb, Vc) desde un Mux triple
+
+% 1. Extraemos el tiempo y la matriz de datos de tensión
+% El bloque to workspace se llama 'cons_ten_modul'
+t_ten = out.mod_no_ideal.Time;
+matriz_tensiones = out.mod_no_ideal.Data;
+
+% STREAMING_CHUNK: Separando las variables...
+% 2. Separamos las variables (según el orden de conexión al Mux: Va*, Vb*, Vc*)
+v_a = matriz_tensiones(:, 1); % 1ra entrada: Consigna tensión fase a (Va*)
+v_b = matriz_tensiones(:, 2); % 2da entrada: Consigna tensión fase b (Vb*)
+v_c = matriz_tensiones(:, 3); % 3ra entrada: Consigna tensión fase c (Vc*)
+
+% STREAMING_CHUNK: Ploteando las señales...
+% 3. Creamos la figura y ploteamos
+figure;
+
+% Consigna Va*: Roja
+plot(t_ten, v_a, 'r', 'LineWidth', 1.5)
+hold on
+% Consigna Vb*: Azul
+plot(t_ten, v_b, 'b', 'LineWidth', 1.5)
+% Consigna Vc*: Negra
+plot(t_ten, v_c, 'k', 'LineWidth', 1.5)
+grid on
+hold off
+
+% STREAMING_CHUNK: Añadiendo títulos y leyenda...
+% 4. Títulos y etiquetas
+title('Modulador de Tensión no ideal (codificación): v_a(t), v_b(t), v_c(t)')
+xlabel('Tiempo [s]')
+ylabel('Tensión [V]')
+
+% Leyenda (usando intérprete para que el asterisco quede como superíndice)
+legend('v_a', 'v_b', 'v_c', 'Location', 'best')
+
+% 5. Configuración del eje X (ajustado a toda la simulación por defecto)
+xlim([0 max(t_ten)])
+
+%% Gráfico de Temperatura del Estator (T_s)
+
+% 1. Extraemos el tiempo y los datos de temperatura desde Simulink
+t_temp = out.T_s.Time;
+T_s_data = out.T_s.Data;
+
+% 2. Creamos una nueva figura
+figure;
+
+% Ploteamos la temperatura (usamos color rojo)
+plot(t_temp, T_s_data, 'r', 'LineWidth', 1.5)
+grid on
+
+% 3. Títulos y etiquetas
+title('T_s(t) - Temperatura del bobinado del estator (codificación)')
+xlabel('Tiempo [s]')
+ylabel('Temperatura [°C]')
+
+% % 4. Configuración del eje X (ZOOM aplicado)
+% % Límite y pasos del eje X (Tiempo: de 1 a 1.026 con paso de 0.002)
+% xlim([1 1.026])
+% xticks(1:0.002:1.026)
